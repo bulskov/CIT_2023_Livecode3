@@ -10,13 +10,14 @@ public class Program
         //Console.WriteLine(fn(5));
 
         int[] numbers = { 1, 2, 3, };
-
-        Print(x => x + 10, numbers);
+        var y = 10;
+        Print(x => x + y, numbers);
     }
 
 
     static void Print(Func<int, int> fn, int[] values)
     {
+       
         foreach(var n in values)
         {
             Console.WriteLine(fn(n));
