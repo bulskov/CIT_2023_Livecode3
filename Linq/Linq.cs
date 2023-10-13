@@ -1,5 +1,29 @@
 ﻿namespace Linq;
 
+static class MyExt
+{
+    public static IEnumerable<T> MyWhere<T>
+        (this IEnumerable<T> collection, Func<T, bool> predicate)
+    {
+        foreach(var element in collection)
+        {
+            if(predicate(element))
+            {
+                yield return element;  
+            }
+        }
+    }
+
+    public static IEnumerable<S> MySelect<T, S>
+       (this IEnumerable<T> collection, Func<T, S> fn)
+    {
+        foreach (var element in collection)
+        {
+            yield return fn(element);
+        }
+    }
+}
+
 public class Program
 {
     public static void Main()
@@ -11,12 +35,12 @@ public class Program
         var persons = Data.GetPersonData();
 
         var pq = persons
-            .Where(x => x.Age < 25)
-            .Select(x => new { x.Name, x.Age });
+            .MyWhere(x => x.Age < 25)
+            .MySelect(x => new { x.Name, x.Age });
 
         var num = Data.GetRandomNumbers(10);
 
-        foreach (var x in num.OrderByDescending(x => x))
+        foreach (var x in pq)
         {
             Console.WriteLine(x);
         }
