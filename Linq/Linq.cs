@@ -33,17 +33,48 @@ public class Program
         var q = number.Where(x => x >= 4);
 
         var persons = Data.GetPersonData();
+        var courses = Data.GetCourses();
 
         var pq = persons
-            .MyWhere(x => x.Age < 25)
-            .MySelect(x => new { x.Name, x.Age });
+            .Where(x => x.Age < 25)
+            .Select(x => new { x.Name, x.Age })
+            .ToArray();
+
+        
+
+
+        var jq = persons.Join(
+            courses,
+            p => p.CourseId,
+            c => c.Id,
+            (p, c) => new { p, c });
 
         var num = Data.GetRandomNumbers(10);
 
-        foreach (var x in pq)
-        {
-            Console.WriteLine(x);
-        }
+
+        //var p = persons.FirstOrDefault(x => x.Age == 21);
+
+        //Console.WriteLine(p);
+
+        //foreach (var x in jq.Select(x => new { PersonName = x.p.Name, CourseName = x.c.Name }))
+        //{
+        //    Console.WriteLine(x);
+        //}
+
+        //var gq = persons.GroupBy(
+        //    p => p.Age);
+
+        //foreach(var element in gq)
+        //{
+        //    Console.WriteLine(element.Key);
+
+        //    foreach(var e in element)
+        //    {
+        //        Console.WriteLine(e);
+        //    }
+        //}
+
+
 
     }
 }
